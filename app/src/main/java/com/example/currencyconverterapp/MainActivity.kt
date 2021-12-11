@@ -29,9 +29,7 @@ class MainActivity : AppCompatActivity() {
         convertButton = findViewById(R.id.convertButton)
         resultText = findViewById(R.id.resultText)
 
-
         val cur = arrayListOf("inr", "usd", "aud", "sar", "cny", "jpy")
-        var selected: Int = 0
 
         //loading the spinner with the array
         val arrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, cur)
@@ -55,7 +53,6 @@ class MainActivity : AppCompatActivity() {
             requestAPI()
         }
     }
-
 
     private fun requestAPI() {
         CoroutineScope(IO).launch {
@@ -81,13 +78,10 @@ class MainActivity : AppCompatActivity() {
         return response
     }
     private suspend fun populateRV(data: String) {
-
         withContext(Main) {
 
             val jsonObject = JSONObject(data) //all data including date
             val currencies = jsonObject.getJSONObject("eur")//all data including date
-
-            val cur = arrayListOf("inr", "usd", "aud", "sar", "cny", "jpy")
 
             val myCurrency = currencies.getString("inr") //each currency value
             val myCurrency2 = currencies.getString("usd")
@@ -96,13 +90,13 @@ class MainActivity : AppCompatActivity() {
             val myCurrency5 = currencies.getString("cny")
             val myCurrency6 = currencies.getString("jpy")
 
+            //converting text view to int
+            var theAmountText = amountText.text.toString().toDouble()
 
-
-            var theAmountText = amountText.text.toString().toInt()
+            //checking if the spinner value same is the string
             if (baseCurrency == "inr" ) {
                 resultText.text = ((myCurrency.toDouble() * theAmountText).toString())
-            }
-            else if(baseCurrency == "usd" ){
+            }else if(baseCurrency == "usd" ){
                 resultText.text = ((myCurrency2.toDouble() * theAmountText).toString())
             }else if(baseCurrency == "aud" ){
                 resultText.text = ((myCurrency3.toDouble() * theAmountText).toString())

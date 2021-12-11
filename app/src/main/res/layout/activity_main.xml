@@ -10,6 +10,7 @@
         android:layout_width="403dp"
         android:layout_height="289dp"
         android:layout_marginTop="212dp"
+        android:background="#DDD2F3"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,7 +50,8 @@
                 android:id="@+id/currencySpinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="48dp" />
+                android:minHeight="48dp"
+                tools:ignore="SpeakableTextPresentCheck" />
         </LinearLayout>
 
         <LinearLayout
@@ -75,7 +77,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="38dp"
                 android:text="Redult: "
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textSize="20dp" />
         </LinearLayout>
 
     </LinearLayout>
