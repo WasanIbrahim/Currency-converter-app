@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var amountText: TextView
     lateinit var convertButton: Button
     lateinit var resultText: TextView
+    lateinit var dateText: TextView
 
     var baseCurrency = "eur"
 
@@ -28,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         amountText = findViewById(R.id.amountText)
         convertButton = findViewById(R.id.convertButton)
         resultText = findViewById(R.id.resultText)
+        dateText = findViewById(R.id.dateText)
 
         val cur = arrayListOf("inr", "usd", "aud", "sar", "cny", "jpy")
 
@@ -43,8 +45,10 @@ class MainActivity : AppCompatActivity() {
                 position: Int,
                 id: Long
             ) {
-                baseCurrency = parent?.getItemAtPosition(position).toString() //currency selected in the spinner
+                baseCurrency = parent?.getItemAtPosition(position)
+                    .toString() //currency selected in the spinner
             }
+
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
@@ -67,6 +71,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun fetchData(): String {
         var response = ""
         try {
@@ -77,11 +82,14 @@ class MainActivity : AppCompatActivity() {
         }
         return response
     }
+
     private suspend fun populateRV(data: String) {
         withContext(Main) {
 
             val jsonObject = JSONObject(data) //all data including date
             val currencies = jsonObject.getJSONObject("eur")//all data including date
+            val date = jsonObject.getString("date")//date
+
 
             val myCurrency = currencies.getString("inr") //each currency value
             val myCurrency2 = currencies.getString("usd")
@@ -93,18 +101,21 @@ class MainActivity : AppCompatActivity() {
             //converting text view to int
             var theAmountText = amountText.text.toString().toDouble()
 
-            //checking if the spinner value same is the string
-            if (baseCurrency == "inr" ) {
+            dateText.text = date.toString()
+
+
+//            //checking if the spinner value same is the string
+            if (baseCurrency == "inr") {
                 resultText.text = ((myCurrency.toDouble() * theAmountText).toString())
-            }else if(baseCurrency == "usd" ){
+            } else if (baseCurrency == "usd") {
                 resultText.text = ((myCurrency2.toDouble() * theAmountText).toString())
-            }else if(baseCurrency == "aud" ){
+            } else if (baseCurrency == "aud") {
                 resultText.text = ((myCurrency3.toDouble() * theAmountText).toString())
-            }else if(baseCurrency == "sar" ){
+            } else if (baseCurrency == "sar") {
                 resultText.text = ((myCurrency4.toDouble() * theAmountText).toString())
-            }else if(baseCurrency == "cny" ){
+            } else if (baseCurrency == "cny") {
                 resultText.text = ((myCurrency5.toDouble() * theAmountText).toString())
-            }else if(baseCurrency == "jpy" ){
+            } else if (baseCurrency == "jpy") {
                 resultText.text = ((myCurrency6.toDouble() * theAmountText).toString())
             }
         }
